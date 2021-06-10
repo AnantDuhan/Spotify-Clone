@@ -4,7 +4,7 @@ import Login from './Login';
 import { getTokenFromResponse } from './Spotify';
 import SpotifyWebApi from "spotify-web-api-js";
 import Player from './Player';
-import { useDataLayerValue} from './DataLayer';
+import { useDataLayerValue } from './DataLayer';
 
 const spotify = new SpotifyWebApi();
 
@@ -22,7 +22,7 @@ function App() {
       dispatch({
         type: "SET_TOKEN",
         token: _token,
-      })
+      });
 
       spotify.setAccessToken(_token);
 
@@ -32,6 +32,21 @@ function App() {
           user: user,
         });
       });
+
+      spotify.getUserPlaylists().then((playlists) => {
+        dispatch({
+          type: "SET_PLAYLISTS",
+          playlists: playlists,
+        });
+      });
+
+      // 37i9dQZEVXcLhYGRIdytwC
+      spotify.getPlaylist('37i9dQZEVXcLhYGRIdytwC').then((Response) => 
+        dispatch({
+          type: "SET_DISCOVER_WEEKLY",
+          discover_weekly: Response,
+        })
+      );
     }
 
   }, []);
