@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Login from './Login';
 import { getTokenFromResponse } from './Spotify';
@@ -10,7 +10,7 @@ const spotify = new SpotifyWebApi();
 
 function App() {
 
-  const [{user, token}, dispatch] = useDataLayerValue();
+  const [{token}, dispatch] = useDataLayerValue();
 
   // run code based on a given condition
   useEffect(() => {
@@ -40,7 +40,6 @@ function App() {
         });
       });
 
-      // 37i9dQZEVXcLhYGRIdytwC
       spotify.getPlaylist('37i9dQZEVXcLhYGRIdytwC').then((Response) => 
         dispatch({
           type: "SET_DISCOVER_WEEKLY",
@@ -49,7 +48,7 @@ function App() {
       );
     }
 
-  }, []);
+  }, [token, dispatch]);
 
   return (
     <div className="app">
